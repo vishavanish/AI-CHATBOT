@@ -1,4 +1,6 @@
-/* ── Reset & base ─────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════ */
 *,
 *::before,
 *::after {
@@ -9,23 +11,173 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #e5e7eb;
-  color: #111827;
+  /* background: #0f0f13; */
+  background: #12121a;
+  color: #e2e8f0;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* ── Layout ───────────────────────────────────────────────── */
-.chat-container {
-  width: 100%;
-  max-width: 800px;
-  height: 100vh;
-  margin: 0 auto;
+/* ═══════════════════════════════════════════════════════
+   APP SHELL — full-screen flex column
+═══════════════════════════════════════════════════════ */
+.app-layout {
   display: flex;
   flex-direction: column;
-  background: #ffffff;
-  box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+  height: 100vh;
+  background: #0f0f13;
+  color: #e2e8f0;
 }
 
-/* ── Message list ─────────────────────────────────────────── */
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════════ */
+.navbar {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 52px;
+  background: #12121a;
+  border-bottom: 1px solid #1e1e2e;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo {
+  color: #818cf8;
+  font-size: 18px;
+}
+
+.navbar-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.02em;
+}
+
+/* ═══════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════ */
+.sidebar {
+  width: 240px;
+  /* background: #12121a; */
+  background: #333333;
+  border-right: 1px solid #1e1e2e;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 12px;
+  gap: 16px;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.sidebar::-webkit-scrollbar       { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 2px; }
+
+.new-chat-btn {
+  width: 100%;
+  padding: 10px;
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.new-chat-btn:hover  { background: #4f52d4; }
+.new-chat-btn:active { background: #4338ca; }
+
+.sidebar-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #475569;
+  margin: 0 0 6px;
+}
+
+.thread-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.thread-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #94a3b8;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.thread-btn:hover {
+  background: #1e1e2e;
+  color: #e2e8f0;
+}
+
+.thread-btn.active {
+  background: #1e1e2e;
+  border-color: #6366f1;
+  color: #a5b4fc;
+}
+
+.thread-icon  { font-size: 14px; flex-shrink: 0; }
+
+.thread-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════
+   CHAT AREA
+═══════════════════════════════════════════════════════ */
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f0f13;
+}
+
+/* thin label showing active thread id */
+.thread-badge {
+  padding: 5px 16px;
+  font-size: 11px;
+  color: #334155;
+  background: #0d0d10;
+  border-bottom: 1px solid #1e1e2e;
+  font-family: "Fira Code", Consolas, monospace;
+  flex-shrink: 0;
+}
+
+/* ── Message list ───────────────────────────────────── */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -36,38 +188,36 @@ body {
   scroll-behavior: smooth;
 }
 
-/* Thin custom scrollbar */
 .messages::-webkit-scrollbar       { width: 6px; }
 .messages::-webkit-scrollbar-track { background: transparent; }
-.messages::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.messages::-webkit-scrollbar-thumb { background: #1e1e2e; border-radius: 3px; }
 
-/* ── Individual message ───────────────────────────────────── */
+/* ── Individual messages ────────────────────────────── */
 .message {
   max-width: 72%;
   padding: 10px 16px;
   border-radius: 18px;
-  line-height: 1.55;
+  line-height: 1.6;
   font-size: 0.95rem;
   word-break: break-word;
 }
 
 .user-message {
   align-self: flex-end;
-  background: #2563eb;
+  background: #6366f1;
   color: #ffffff;
   border-bottom-right-radius: 4px;
 }
 
 .bot-message {
   align-self: flex-start;
-  background: #f3f4f6;
-  color: #111827;
+  background: #1a1a28;
+  color: #e2e8f0;
   border-bottom-left-radius: 4px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #1e1e2e;
 }
 
-/* ── Streaming cursor ─────────────────────────────────────── */
-/* Targeted class added/removed in JS — never bleeds onto old messages */
+/* ── Streaming cursor ───────────────────────────────── */
 .cursor {
   display: inline-block;
   width: 2px;
@@ -78,32 +228,31 @@ body {
   animation: blink 0.7s steps(1) infinite;
 }
 
-@keyframes blink {
-  50% { opacity: 0; }
-}
+@keyframes blink { 50% { opacity: 0; } }
 
-/* ── Markdown content inside bot messages ─────────────────── */
-.bot-message p          { margin-bottom: 0.5em; }
+/* ── Markdown inside bot messages ───────────────────── */
+.bot-message p            { margin-bottom: 0.5em; }
 .bot-message p:last-child { margin-bottom: 0; }
 .bot-message ul,
-.bot-message ol         { padding-left: 1.4em; margin-bottom: 0.5em; }
-.bot-message li         { margin-bottom: 0.25em; }
+.bot-message ol           { padding-left: 1.4em; margin-bottom: 0.5em; }
+.bot-message li           { margin-bottom: 0.25em; }
 .bot-message h1,
 .bot-message h2,
-.bot-message h3         { margin: 0.75em 0 0.35em; font-size: 1rem; font-weight: 600; }
-.bot-message strong     { font-weight: 600; }
-.bot-message a          { color: #2563eb; text-decoration: underline; }
+.bot-message h3           { margin: 0.75em 0 0.35em; font-size: 1rem; font-weight: 600; }
+.bot-message strong       { font-weight: 600; }
+.bot-message a            { color: #818cf8; text-decoration: underline; }
 
-/* Inline code */
+/* inline code */
 .bot-message code {
-  background: #e5e7eb;
+  background: #12121a;
+  border: 1px solid #1e1e2e;
   border-radius: 4px;
   padding: 1px 5px;
   font-size: 0.875em;
   font-family: "Fira Code", "Cascadia Code", Consolas, monospace;
 }
 
-/* Code blocks — SyntaxHighlighter renders a <pre> wrapper */
+/* code blocks */
 .bot-message pre {
   border-radius: 8px;
   overflow-x: auto;
@@ -111,14 +260,17 @@ body {
   font-size: 0.875em;
 }
 
-/* ── Input area ───────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════
+   INPUT AREA
+═══════════════════════════════════════════════════════ */
 .input-area {
   display: flex;
   align-items: flex-end;
   gap: 10px;
   padding: 14px 16px;
-  border-top: 1px solid #e5e7eb;
-  background: #ffffff;
+  border-top: 1px solid #1e1e2e;
+  background: #12121a;
+  flex-shrink: 0;
 }
 
 .user-input {
@@ -128,7 +280,9 @@ body {
   min-height: 44px;
   max-height: 160px;
   padding: 10px 14px;
-  border: 1px solid #d1d5db;
+  background: #333333;
+  color: #e2e8f0;
+  border: 1px solid #2d2d3f;
   border-radius: 12px;
   font-size: 0.95rem;
   font-family: inherit;
@@ -137,14 +291,15 @@ body {
   transition: border-color 0.15s;
 }
 
-.user-input:focus          { border-color: #2563eb; }
-.user-input:disabled       { background: #f9fafb; cursor: not-allowed; }
+.user-input::placeholder { color: #475569; }
+.user-input:focus         { border-color: #6366f1; }
+.user-input:disabled      { background: #12121a; cursor: not-allowed; opacity: 0.6; }
 
-/* ── Send button ──────────────────────────────────────────── */
+/* ── Send button ─────────────────────────────────────── */
 .send-button {
   height: 44px;
   padding: 0 20px;
-  background: #2563eb;
+  background: #6366f1;
   color: #ffffff;
   border: none;
   border-radius: 12px;
@@ -156,25 +311,24 @@ body {
   align-items: center;
   justify-content: center;
   min-width: 72px;
+  flex-shrink: 0;
 }
 
-.send-button:hover:not(:disabled) { background: #1d4ed8; }
+.send-button:hover:not(:disabled) { background: #4f52d4; }
 
 .send-button--disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* ── Spinner (inside send button while streaming) ─────────── */
+/* ── Spinner ─────────────────────────────────────────── */
 .spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.65s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
