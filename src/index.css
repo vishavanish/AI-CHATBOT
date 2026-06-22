@@ -331,4 +331,135 @@ body {
   animation: spin 0.65s linear infinite;
 }
 
+.tool-events-wrapper {
+  margin-bottom: 8px;
+}
+
+.tool-events-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.tool-events-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.chevron {
+  transition: transform 0.15s ease;
+}
+
+.chevron--up {
+  transform: rotate(180deg);
+}
+
+.tool-events-list {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.tool-event-item {
+  margin-bottom: 6px;
+}
+
+.tool-event-args,
+.tool-event-output {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 6px 8px;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.8rem;
+  white-space: pre-wrap;
+}
+
+.thinking-panel {
+  margin-bottom: 8px;
+  border: 0.5px solid var(--color-border-tertiary, rgba(255,255,255,0.1));
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.thinking-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--color-text-secondary, #aaa);
+  text-align: left;
+  gap: 8px;
+}
+
+.thinking-header:hover {
+  background: rgba(255,255,255,0.03);
+}
+
+.thinking-title {
+  flex: 1;
+}
+
+.thinking-chevron {
+  font-size: 16px;
+  transition: transform 0.15s ease;
+  display: inline-block;
+}
+
+.thinking-chevron--up {
+  transform: rotate(180deg);
+}
+
+.thinking-steps {
+  padding: 4px 12px 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 0.5px solid var(--color-border-tertiary, rgba(255,255,255,0.08));
+}
+
+.thinking-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text-secondary, #aaa);
+  line-height: 1.5;
+}
+
+.thinking-icon {
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.thinking-icon--done {
+  color: #4ade80;
+}
+
+.thinking-icon--pending {
+  color: #94a3b8;
+}
+
+.thinking-step-text code {
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  background: rgba(255,255,255,0.06);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
 @keyframes spin { to { transform: rotate(360deg); } }
+
+

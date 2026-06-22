@@ -81,6 +81,28 @@ const App = () => {
       return updated;
     });
 
+  const appendToolCall = (name, args) =>
+    setMessages((prev) => {
+      const updated = [...prev];
+      const last = updated[updated.length - 1];
+      updated[updated.length - 1] = {
+        ...last,
+        toolEvents: [...(last.toolEvents || []), { type: "call", name, args }],
+      };
+      return updated;
+    });
+
+  const appendToolResult = (name, output) =>
+    setMessages((prev) => {
+      const updated = [...prev];
+      const last = updated[updated.length - 1];
+      updated[updated.length - 1] = {
+        ...last,
+        toolEvents: [...(last.toolEvents || []), { type: "result", name, output }],
+      };
+      return updated;
+    });
+
   const sendMessage = async (text) => {
     setMessages((prev) => [...prev, { sender: "user", text }]);
     setIsStreaming(true);
@@ -100,7 +122,7 @@ const App = () => {
 
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "", streaming: true },
+        { sender: "bot", text: "", toolEvents: [], streaming: true },
       ]);
 
       while (true) {
@@ -121,9 +143,17 @@ const App = () => {
           if (raw === "[DONE]") break;
 
           try {
-            const { delta, error } = JSON.parse(raw);
+            const { delta, tool_call, args, tool_result, output, error } =
+              JSON.parse(raw);
             if (error) throw new Error(error);
-            if (delta) appendChunk(delta);
+
+            if (tool_call) {
+              appendToolCall(tool_call, args);
+            } else if (tool_result) {
+              appendToolResult(tool_result, output);
+            } else if (delta) {
+              appendChunk(delta);
+            }
           } catch (e) {
             console.error("Failed to parse SSE payload:", raw, e);
           }

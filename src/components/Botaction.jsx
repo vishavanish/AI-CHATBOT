@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import ToolEvents from "./ToolEvents.jsx"
 
 const Botaction = ({ messages }) => {
   const bottomRef = useRef(null);
@@ -20,10 +21,14 @@ const Botaction = ({ messages }) => {
             msg.sender === "user" ? "user-message" : "bot-message"
           }`}
         >
+          {msg.sender === "bot" && (
+            <ToolEvents events={msg.toolEvents} streaming={msg.streaming} />
+          )}
           {msg.sender === "bot" ? (
+            
             <ReactMarkdown
               components={{
-                code({ node, inline, className, children, ...props }) {
+                code({ inline, className, children, ...props }) {
                   const match = /language-(\w+)/.exec(className || "");
                   return !inline && match ? (
                     <SyntaxHighlighter
